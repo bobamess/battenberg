@@ -202,17 +202,27 @@ clonal_findcentroid.plot = function(minimise, dist_choice, d, psis, rhos, new_bo
   psi_range = psi_max - psi_min
   rho_range = rho_max - rho_min
 
-  psi_min_label = ceiling( 10 * psi_min )/10
-  psi_max_label = floor( 10 * psi_max )/10
-  psi_label_interval = 0.1
+  # BA changed below
+  #psi_min_label = ceiling( 10 * psi_min )/10
+  #psi_max_label = floor( 10 * psi_max )/10
+  #psi_label_interval = 0.1
+  
+  psi_label_interval = ifelse(psi_range < 0.1, 0.01, 0.1)
+  psi_min_label = ceiling(psi_min/psi_label_interval) * psi_label_interval
+  psi_max_label = floor(psi_max/psi_label_interval) * psi_label_interval
   
   psi_min_label_standardised = ( psi_min_label - psi_min ) / psi_range
   psi_max_label_standardised = ( psi_max_label - psi_min ) / psi_range
   psi_label_interval_standardised = psi_label_interval / psi_range
   
-  rho_min_label = ceiling( 100 * rho_min )/100
-  rho_max_label = floor( 100 * rho_max )/100
-  rho_label_interval = 0.01
+  # BA changed below
+  #rho_min_label = ceiling( 100 * rho_min )/100
+  #rho_max_label = floor( 100 * rho_max )/100
+  #rho_label_interval = 0.01
+  
+  rho_label_interval <- ifelse(rho_range < 0.01, 0.001, 0.01)
+  rho_min_label = ceiling(rho_min/rho_label_interval) * rho_label_interval
+  rho_max_label = floor(rho_max/rho_label_interval) * rho_label_interval
   
   rho_min_label_standardised = ( rho_min_label - rho_min ) / rho_range
   rho_max_label_standardised = ( rho_max_label - rho_min ) / rho_range

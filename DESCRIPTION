@@ -12,7 +12,7 @@ Authors@R: c(person("David", "Wedge", role=c("aut"), email="dw9@sanger.ac.uk"),
     person("Kevin", "Dawson", role=c("ctb")),
     person("Gro", "Nielsen", role="ctb"),
     person("Jiqiu","Cheng", role="ctb"))
-Description: Estimate subclonal copy number from whole genome sequencing or SNP6 data.
+Description: Estimate subclonal copy number from whole genome sequencing or SNP6 data. This fork includes R scripts edited by Bob Amess for use with Nextflow CNV pipeline. Please note the Dockerfile has not been updated.
 Depends: 
   R (>= 2.13.0),
   stats,
@@ -33,7 +33,7 @@ Imports:
   VariantAnnotation,
   copynumber,
   data.table
-URL: https://github.com/Wedge-Oxford/battenberg
+URL: https://github.com/bobamess/battenberg
 LazyLoad: yes
 Suggests:
     testthat

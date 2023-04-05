@@ -172,7 +172,10 @@ generate.impute.input.wgs = function(chrom, tumour.allele.counts.file, normal.al
   # Read in the 1000 genomes reference file paths for the specified chrom
   impute.info = parse.imputeinfofile(imputeinfofile, is.male, chrom=chrom)
   chr_names = unique(impute.info$chrom)
-  chrom_name = chrom
+  
+  # BA changed below
+  #chrom_name = chrom
+  chrom_name = parse.imputeinfofile(imputeinfofile, is.male)$chrom[chrom]
   
   #print(paste("GenerateImputeInput is.male? ", is.male,sep=""))
   #print(paste("GenerateImputeInput #impute files? ", nrow(impute.info),sep=""))
@@ -234,17 +237,24 @@ generate.impute.input.wgs = function(chrom, tumour.allele.counts.file, normal.al
   snp.names = paste("snp",1:sum(!is.na(indices)), sep="")
   out.data = cbind(snp.names, known_SNPs[!is.na(indices),1:4], genotypes)
 
-  write.table(out.data, file=output.file, row.names=F, col.names=F, quote=F)
-  if(is.na(chrom_name)) {
-    sample.g.file = paste(dirname(output.file), "/sample_g.txt", sep="")
-    #not sure this is necessary, because only the PAR regions are used for males
-    #if(is.male){
-    #	sample_g_data=data.frame(ID_1=c(0,"INDIVI1"),ID_2=c(0,"INDIVI1"),missing=c(0,0),sex=c("D",1))
-    #}else{
-    sample_g_data = data.frame(ID_1=c(0,"INDIVI1"), ID_2=c(0,"INDIVI1"), missing=c(0,0), sex=c("D",2))
-    #}
-    write.table(sample_g_data, file=sample.g.file, row.names=F, col.names=T, quote=F)
-  }
+  # BA changed below
+  #write.table(out.data, file=output.file, row.names=F, col.names=F, quote=F)
+  #if(is.na(chrom_name)) {
+    #sample.g.file = paste(dirname(output.file), "/sample_g.txt", sep="")
+    ##not sure this is necessary, because only the PAR regions are used for males
+    ##if(is.male){
+    ##	sample_g_data=data.frame(ID_1=c(0,"INDIVI1"),ID_2=c(0,"INDIVI1"),missing=c(0,0),sex=c("D",1))
+    ##}else{
+    #sample_g_data = data.frame(ID_1=c(0,"INDIVI1"), ID_2=c(0,"INDIVI1"), missing=c(0,0), sex=c("D",2))
+    ##}
+    #write.table(sample_g_data, file=sample.g.file, row.names=F, col.names=T, quote=F)
+  #}
+  
+  missing = apply(genotypes, 1, sum) == 0
+  out.data.missing = out.data[missing, ]
+  out.data.notmissing = out.data[!missing, ]
+  write.table(out.data.missing, file = paste0(output.file, ".missing"), row.names = F, col.names = F, quote = F)
+  write.table(out.data.notmissing, file = output.file, row.names = F, col.names = F, quote = F)
 }
 
 #' Function to correct LogR for waivyness that correlates with GC content
