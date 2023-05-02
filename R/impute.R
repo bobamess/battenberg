@@ -68,9 +68,7 @@ parse.imputeinfofile = function(imputeinfofile, is.male, chrom=NA) {
   chr_names=unique(impute.info$chrom)
   # Subset for a particular chromosome
   if (!is.na(chrom)) {
-    # BA changed below
-    #impute.info = impute.info[impute.info$chrom==chrom,]
-    impute.info = impute.info[impute.info$chrom == chr_names[chrom], ]
+    impute.info = impute.info[impute.info$chrom==chrom,]
   }
   return(impute.info)
 }
